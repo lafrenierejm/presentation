@@ -1,5 +1,10 @@
 $ENV{'TEXINPUTS'}='./sty//:' . $ENV{'TEXINPUTS'}; 
 
+# Use xelatex
+$pdflatex = "xelatex %O %S";
+$pdf_mode = 1;
+$dvi_mode = $postscript_mode = 0;
+
 # support for the glossaries package:
 add_cus_dep('glo', 'gls', 0, 'makeglossaries');
 add_cus_dep('acn', 'acr', 0, 'makeglossaries');
