@@ -12,6 +12,22 @@
 \usepackage{xspace}
 \newcommand{\themename}{\textbf{\textsc{metropolis}}\xspace}
 
+% quoting
+\usepackage{csquotes}
+%% wrap emails in angle brackets
+% \DeclareQuoteStyle{email}{\guilsinglleft}{\guilsinglright}{\guilsinglleft}{\guilsinglright}
+
+% hyperlinks
+\usepackage{hyperref}
+%% \urlanglebracket encloses a URL in angle brackets
+\DeclareUrlCommand\urlanglebracket{%
+  \def\UrlLeft{<}%
+  \def\UrlRight{>}%
+}
+%% macros
+\newcommand{\email}[1]{\href{mailto:#1}{\url{#1}}}
+\newcommand{\emailcontact}[1]{\href{mailto:#1}{\urlanglebracket{#1}}}
+
 % document metadata
 \newcommand{\titletext}{Augmenting the PIT Mutation Testing Tool}
 %% \maketitle information
