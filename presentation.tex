@@ -4,10 +4,6 @@
 \usepackage{appendixnumberbeamer}
 
 \usepackage{booktabs}
-\usepackage[scale=2]{ccicons}
-
-\usepackage{pgfplots}
-\usepgfplotslibrary{dateplot}
 
 \usepackage{xspace}
 \newcommand{\themename}{\textbf{\textsc{metropolis}}\xspace}
@@ -34,6 +30,15 @@
 
 % lists
 \newenvironment{itemizeStepWithAlert}{\begin{itemize}[<+-| alert@+>]}{\end{itemize}}
+
+% graphics
+%% drawing stacks
+\usepackage[nocolor]{drawstack}
+%% plotting
+\usepackage{pgfplots}
+\usepgfplotslibrary{dateplot}
+%% Creative Commons icons
+\usepackage[scale=2]{ccicons}
 
 % hyperlinks
 \usepackage{hyperref}
