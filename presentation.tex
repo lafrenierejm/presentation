@@ -17,6 +17,21 @@
 %% wrap emails in angle brackets
 % \DeclareQuoteStyle{email}{\guilsinglleft}{\guilsinglright}{\guilsinglleft}{\guilsinglright}
 
+% source code
+\usepackage{listings}
+\renewcommand{\lstlistingname}{}
+\renewcommand{\lstlistingname}{}
+\usepackage{lstautogobble}
+\usepackage{lstlinebgrd}
+%% Java environment
+\lstnewenvironment{Java}[1][]{%
+  \lstset{autogobble=true,columns=fullflexible,language=java,#1}%
+}{}
+%% Java inline
+\newcommand{\java}[1]{%
+  \lstinline[autogobble=true,columns=fullflexible,language=java]{#1}
+}
+
 % hyperlinks
 \usepackage{hyperref}
 %% \urlanglebracket encloses a URL in angle brackets
