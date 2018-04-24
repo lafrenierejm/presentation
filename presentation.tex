@@ -3,19 +3,51 @@
 \usetheme[progressbar=frametitle]{metropolis}
 \usepackage{appendixnumberbeamer}
 
-\usepackage{booktabs}
-\usepackage[scale=2]{ccicons}
-
-\usepackage{pgfplots}
-\usepgfplotslibrary{dateplot}
-
 \usepackage{xspace}
 \newcommand{\themename}{\textbf{\textsc{metropolis}}\xspace}
 
-% quoting
+% encoding and locale
+\usepackage[utf8]{inputenc}
+\usepackage[american]{babel}
 \usepackage{csquotes}
-%% wrap emails in angle brackets
-% \DeclareQuoteStyle{email}{\guilsinglleft}{\guilsinglright}{\guilsinglleft}{\guilsinglright}
+%% English oddities
+\makeatletter % changes the catcode of '@' to 11
+\newcommand\etal{et al\@ifnextchar.{}{.\@}}
+\newcommand\etc{etc\@ifnextchar.{}{.\@}}
+\newcommand\ie{i.e.\@}
+\newcommand\eg{e.g.\@}
+\makeatother % restores the catcode of '@' to 12
+
+% source code
+\usepackage{listings}
+\renewcommand{\lstlistingname}{}
+\renewcommand{\lstlistingname}{}
+\usepackage{lstautogobble}
+\usepackage{lstlinebgrd}
+%% Java environment
+\lstnewenvironment{Java}[1][]{%
+  \lstset{autogobble=true,columns=fullflexible,language=java,#1}%
+}{}
+%% Java inline
+\newcommand{\java}[1]{%
+  \lstinline[autogobble=true,columns=fullflexible,language=java]{#1}
+}
+
+% lists
+\newenvironment{itemizeStepWithAlert}{\begin{itemize}[<+-| alert@+>]}{\end{itemize}}
+
+% graphics
+%% drawing stacks
+\usepackage[nocolor]{drawstack}
+%% plotting
+\usepackage{pgfplots}
+\usepgfplotslibrary{dateplot}
+%% Creative Commons icons
+\usepackage[scale=2]{ccicons}
+
+% tables
+\usepackage{booktabs}
+\usepackage{tabu}
 
 % hyperlinks
 \usepackage{hyperref}
@@ -36,7 +68,7 @@
 % \date{\today}
 \date{}
 \author{%
-  \urlstyle{sf}
+  \urlstyle{same}
   Khoa Nguyen \emailcontact{kxn161730@utdallas.edu}\\
   Leejia James \emailcontact{lxj171130@utdallas.edu}\\
   Joseph LaFreniere \emailcontact{lafrenierejm@utdallas.edu}
