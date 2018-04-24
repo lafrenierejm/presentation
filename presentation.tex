@@ -6,10 +6,17 @@
 \usepackage{xspace}
 \newcommand{\themename}{\textbf{\textsc{metropolis}}\xspace}
 
-% quoting
+% encoding and locale
+\usepackage[utf8]{inputenc}
+\usepackage[american]{babel}
 \usepackage{csquotes}
-%% wrap emails in angle brackets
-% \DeclareQuoteStyle{email}{\guilsinglleft}{\guilsinglright}{\guilsinglleft}{\guilsinglright}
+%% English oddities
+\makeatletter % changes the catcode of '@' to 11
+\newcommand\etal{et al\@ifnextchar.{}{.\@}}
+\newcommand\etc{etc\@ifnextchar.{}{.\@}}
+\newcommand\ie{i.e.\@}
+\newcommand\eg{e.g.\@}
+\makeatother % restores the catcode of '@' to 12
 
 % source code
 \usepackage{listings}
