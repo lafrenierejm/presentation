@@ -34,8 +34,13 @@
   \lstset{autogobble=true,columns=fullflexible,language=java,#1}%
 }{}
 %% Java inline
-\newcommand{\java}[1]{%
-  \lstinline[autogobble=true,columns=fullflexible,language=java]{#1}
+\newcommand{\java}[2][]{%
+  \lstinline[%
+      autogobble=true,%
+      columns=fullflexible,%
+      language=java,%
+      #1%
+  ]{#2}
 }
 
 % lists
