@@ -6,6 +6,11 @@
 \usepackage{xspace}
 \newcommand{\themename}{\textbf{\textsc{metropolis}}\xspace}
 
+% text justification
+\usepackage{ragged2e}
+\usepackage{etoolbox}
+\usepackage{microtype}
+
 % encoding and locale
 \usepackage[utf8]{inputenc}
 \usepackage[american]{babel}
@@ -89,6 +94,8 @@
   \setbeamertemplate{section in toc}[sections numbered]
   \tableofcontents[hideallsubsections]
 \end{frame}
+
+\include{section/m1}
 
 \section{Introduction}
 

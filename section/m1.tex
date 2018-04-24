@@ -1,0 +1,247 @@
+\section{M1}
+
+\begin{frame}{Specification}
+  \justifying
+  For each \alert<2>{field} dereference, such as \java{o.f}, add a conditional checker to perform the field dereference only when \java{o != null}.
+\end{frame}
+
+\begin{frame}[fragile]{ASMified sample}
+  \begin{columns}
+    \begin{column}{0.35\textwidth}
+      \begin{Java}[%
+        % frame=single,%
+        % numbers=left,%
+        % xleftmargin=1em,%
+        ]
+        Rct r = new Rct(1, 2);
+        int width;
+
+        width = r.width;
+      \end{Java}
+    \end{column}
+    \begin{column}{0.60\textwidth}
+      \small
+      \begin{lstlisting}[%
+          % frame=single,%
+          autogobble=true,%
+          columns=fullflexible,%
+          language={},%
+          % numbers=left,%
+          % xleftmargin=0.5em,%
+        ]
+        visitTypeInsn(NEW, "Rct");
+        visitInsn(DUP);
+        visitInsn(ICONST_2);
+        visitInsn(ICONST_3);
+        visitMethodInsn(INVOKESPECIAL... "<init>"...);
+        visitVarInsn(ASTORE, 1);
+        visitVarInsn(ALOAD, 1);
+        visitFieldInsn(GETFIELD, "Rct", "width", "I");
+        visitVarInsn(ISTORE, 2);
+    \end{lstlisting}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\begin{frame}[fragile]{ASMified sample}
+  \begin{columns}
+    \begin{column}{0.35\textwidth}
+      \begin{Java}[%
+          % frame=single,%
+          % numbers=left,%
+          % linebackgroundsep=1em,%
+          linebackgroundcolor={%
+            \ifnum 0<\value{lstnumber} \color{white}\fi%
+            \ifnum 4=\value{lstnumber} \color{mLightGreen}\fi%
+            % \ifnum 3<\value{lstnumber} \color{red}\fi,%
+          },%
+        ]
+        Rct r = new Rct(1, 2);
+        int width;
+
+        if (null != r)
+            width = r.width;
+      \end{Java}
+    \end{column}
+    \begin{column}{0.60\textwidth}
+      \small
+      \begin{lstlisting}[%
+          % frame=single,%
+          autogobble=true,%
+          columns=fullflexible,%
+          % numbers=left,%
+          language={},%
+          % breaklines=true,%
+          % linebackgroundsep=2.25em,%
+          linebackgroundcolor={%
+            \ifnum 0<\value{lstnumber} \color{white}\fi%
+            \ifnum 6=\value{lstnumber} \color{mLightGreen}\fi%
+            \ifnum 7=\value{lstnumber} \color{mLightGreen}\fi%
+            \ifnum 8=\value{lstnumber} \color{mLightGreen}\fi%
+            \ifnum 9=\value{lstnumber} \color{mLightGreen}\fi%
+            \ifnum 10=\value{lstnumber} \color{mLightGreen}\fi%
+            \ifnum 14=\value{lstnumber} \color{mLightGreen}\fi%
+            \ifnum 15=\value{lstnumber} \color{mLightGreen}\fi%
+            % \ifnum 3<\value{lstnumber} \color{red}\fi%
+          },%
+          % numbers=left,%
+          % xleftmargin=0.5em,%
+        ]
+        visitTypeInsn(NEW, "Rct");
+        visitInsn(DUP);
+        visitInsn(ICONST_1);
+        visitInsn(ICONST_2);
+        visitMethodInsn(INVOKESPECIAL... "<init>"...);
+        visitVarInsn(ASTORE, 1);
+        visitInsn(ACONST_NULL);
+        visitVarInsn(ALOAD, 1);
+        el l0 = new Label();
+        visitJumpInsn(IF_ACMPEQ, l0);
+        visitVarInsn(ALOAD, 1);
+        visitFieldInsn(GETFIELD, "Rct", "width", "I");
+        visitVarInsn(ISTORE, 2);
+        visitLabel(l0);
+        visitFrame(Opcodes.F_APPEND,1, ...);
+      \end{lstlisting}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\begin{frame}{Walking without jumping}
+  \begin{columns}[T]
+    \begin{column}{0.35\textwidth}
+      \begin{overprint}
+        \onslide<1|only@1>\begin{drawstack}
+          \cell{objectref \textrightarrow{} r}
+        \end{drawstack}
+        \onslide<2|only@2>\begin{drawstack}
+          \cell{objectref \textrightarrow{} r}
+          \cell{objectref \textrightarrow{} r}
+        \end{drawstack}
+        \onslide<3|only@3>\begin{drawstack}
+          \cell{objectref \textrightarrow{} r}
+          \cell{objectref \textrightarrow{} r}
+          \cell{1}
+        \end{drawstack}
+        \onslide<4|only@4>\begin{drawstack}
+          \cell{objectref \textrightarrow{} r}
+          \cell{objectref \textrightarrow{} r}
+          \cell{1}
+          \cell{2}
+        \end{drawstack}
+        \onslide<5|only@5>\begin{drawstack}
+          \cell{objectref \textrightarrow{} r}
+          \cell{objectref \textrightarrow{} r}
+        \end{drawstack}
+        \onslide<6|only@6>\begin{drawstack}
+          \cell{objectref \textrightarrow{} r}
+        \end{drawstack}
+        \onslide<7|only@7>\begin{drawstack}
+          \cell{objectref \textrightarrow{} r}
+          \cell{objectref \textrightarrow{} \java{null}}
+        \end{drawstack}
+        \onslide<8-9|only@8-9>\begin{drawstack}
+          \cell{objectref \textrightarrow{} r}
+          \cell{objectref \textrightarrow{} \java{null}}
+          \cell{objectref \textrightarrow{} r}
+        \end{drawstack}
+        \onslide<10|only@10>\begin{drawstack}
+          \cell{objectref \textrightarrow{} r}
+        \end{drawstack}
+        \onslide<11|only@11>\begin{drawstack}
+          \cell{objectref \textrightarrow{} r}
+          \cell{objectref \textrightarrow{} r}
+        \end{drawstack}
+        \onslide<12|only@12>\begin{drawstack}
+          \cell{objectref \textrightarrow{} r}
+          \cell{1}
+        \end{drawstack}
+        \onslide<13-|only@13->\begin{drawstack}
+          \cell{objectref \textrightarrow{} r}
+        \end{drawstack}
+      \end{overprint}
+    \end{column}
+    \begin{column}{0.60\textwidth}
+      \small
+      \setlength{\leftmargin}{0pt}
+      \setlength{\leftmargini}{0pt}
+      \lstset{columns=fullflexible}
+      \begin{itemizeStepWithAlert}
+        \setlength{\itemsep}{0pt}
+        \setlength{\parskip}{0pt}
+        \setlength{\parsep}{0pt}
+      \item[] % 1
+        \lstinline{visitTypeInsn(NEW, "Rct");}
+      \item[] % 2
+        \lstinline{visitInsn(DUP);}
+      \item[] % 3
+        \lstinline{visitInsn(ICONST_1);}
+      \item[] % 4
+        \lstinline{visitInsn(ICONST_2);}
+      \item[] % 5
+        \lstinline{visitMethodInsn(INVOKESPECIAL... "<init>"...);}
+      \item[] % 6
+        \lstinline{visitVarInsn(ASTORE, 1);}
+      \item[] % 7
+        \lstinline{visitInsn(ACONST_NULL);}
+      \item[] % 8
+        \lstinline{visitVarInsn(ALOAD, 1);}
+      \item[] % 9
+        \lstinline{el l0 = new Label();}
+      \item[] % 10
+        \lstinline{visitJumpInsn(IF_ACMPEQ, l0);}
+      \item[] % 11
+        \lstinline{visitVarInsn(ALOAD, 1);}
+      \item[] % 12
+        \lstinline{visitFieldInsn(GETFIELD, "Rct", "width", "I");}
+      \item[] % 13
+        \lstinline{visitVarInsn(ISTORE, 2);}
+      \item[] % 14
+        \lstinline{visitLabel(l0);}
+      \item[] % 15
+        \lstinline{visitFrame(Opcodes.F_APPEND,1, ...);}
+      \end{itemizeStepWithAlert}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\begin{frame}{PIT implementation}
+  Override \java{visitFieldInsn()} for \lstinline{PUTFIELD} and \lstinline{GETFIELD}:
+  \begin{enumerate}
+  \item
+    Duplicate the objectref on top of the stack
+  \item
+    Push a null reference onto the stack
+  \item
+    Compare the references' equality
+  \end{enumerate}
+  \begin{columns}[t,totalwidth=0.6\textwidth]
+    \begin{column}{0.45\textwidth}
+      Equal (null):
+      \begin{enumerate}
+        \setcounter{enumi}{3}
+      \item
+        Skip the original opcode
+      \item
+        Pop the unneeded object reference from the stack
+      \item
+        Return to normal execution
+      \end{enumerate}
+    \end{column}
+    \begin{column}[]{0.45\textwidth}
+      Not equal:
+      \begin{enumerate}
+        \setcounter{enumi}{3}
+      \item
+        Execute the original field access opcode
+      \item
+        Return to normal execution
+      \end{enumerate}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "../presentation"
+%%% End:
