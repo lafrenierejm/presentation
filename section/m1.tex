@@ -208,32 +208,33 @@
 \begin{frame}{PIT implementation}
   Override \java{visitFieldInsn()} for \lstinline{PUTFIELD} and \lstinline{GETFIELD}:
   \begin{enumerate}
-  \item
+  \item<alert@2>
     Duplicate the objectref on top of the stack
-  \item
+  \item<alert@3>
     Push a \java{null} reference onto the stack
+  \item<alert@4>
     Compare the references' equality
   \end{enumerate}
   \begin{columns}[t,totalwidth=0.6\textwidth]
     \begin{column}{0.45\textwidth}
-      Equal (null):
+      \alert<5-7>{Equal (\java{null}):}
       \begin{enumerate}
         \setcounter{enumi}{3}
-      \item
+      \item<alert@5>
         Skip the original opcode
-      \item
+      \item<alert@6>
         Pop the unneeded object reference from the stack
-      \item
+      \item<alert@7>
         Return to normal execution
       \end{enumerate}
     \end{column}
     \begin{column}[]{0.45\textwidth}
-      Not equal:
+      \alert<8-9>{Not equal:}
       \begin{enumerate}
         \setcounter{enumi}{3}
-      \item
+      \item<alert@8>
         Execute the original field access opcode
-      \item
+      \item<alert@9>
         Return to normal execution
       \end{enumerate}
     \end{column}
